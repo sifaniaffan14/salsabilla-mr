@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Criteria\CustomCriteria;
 use App\Models\Product;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -32,7 +33,7 @@ class ProductRepository extends BaseRepository
      */
     public function boot()
     {
-        $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(app(CustomCriteria::class));
     }
 
     public function fetchProductById(int $id): Product

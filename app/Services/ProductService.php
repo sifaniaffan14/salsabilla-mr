@@ -26,6 +26,18 @@ class ProductService extends BaseService
         $this->productDetailRepository = $productDetailRepository;
     }
 
+    public function getProductandDetail()
+    {
+        $limit = request('limit', 10);
+        $products = $this->productRepository->paginate($limit);
+        $productDetailsData = $products->productDetails;
+        $productDetails = $this->productDetailRepository->all();
+        return [
+            'products' => $products,
+            'productDetails' => $productDetails
+        ];
+    }
+
     public function imageProcess($image)
     {
         $resource = 'product';
