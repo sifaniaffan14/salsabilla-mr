@@ -40,7 +40,7 @@ class ProductRepository extends BaseRepository
         $product = $this->find($id);
 
         if (!$product) {
-            throw new ModelNotFoundException("Role with id {$id} not found", Response::HTTP_NOT_FOUND);
+            throw new ModelNotFoundException("Product with id {$id} not found", Response::HTTP_NOT_FOUND);
         }
 
         return $product;

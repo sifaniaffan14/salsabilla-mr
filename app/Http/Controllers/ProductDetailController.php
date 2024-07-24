@@ -2,74 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Product\CreateProductRequest;
-use App\Http\Requests\Product\UpdateProductRequest;
-use App\Repositories\ProductRepository;
-use App\Services\ProductService;
+use App\Repositories\ProductDetailRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class ProductDetailController extends Controller
 {
     protected $repository;
-    protected $service;
 
     public function __construct(
-        ProductRepository $repository,
-        ProductService $service
+        ProductDetailRepository $repository,
     ) {
         $this->repository = $repository;
-        $this->service = $service;
     }
 
     public function index(){
         $limit = request('limit', 10);
         try {
-            $products = $this->repository->paginate($limit);
+            $productDetails = $this->repository->paginate($limit);
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), $e);  
         }
-        return $this->successResponse($products);
+        return $this->successResponse($productDetails);
     }
 
     public function show(int $id)
     {
         try {
-            $products = $this->repository->fetchProductById($id);
+            $productDetails = $this->repository->fetchProductDetailById($id);
         } catch(Exception $e){
             return $this->errorResponse($e->getMessage(), $e);
         }
 
-        return $this->successResponse($products);
+        return $this->successResponse($productDetails);
     }
 
-    public function store(CreateProductRequest $request)
+    public function store(Request $request)
     {
         try {
-            $products = $this->service->storeProduct($request->all());
+            $productDetails = $this->repository->create($request->all());
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $this->successResponse($products, Response::HTTP_CREATED);
+        return $this->successResponse($productDetails, Response::HTTP_CREATED);
     }
 
-    public function update(UpdateProductRequest $request, int $id)
+    public function update(Request $request, int $id)
     {
         try {
-            $products = $this->repository->update($request->all(), $id);
+            $productDetails = $this->repository->update($request->all(), $id);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $this->successResponse($products);
+        return $this->successResponse($productDetails);
     }
 
     public function destroy(int $id)
     {
         try {
-            $this->repository->deleteProduct($id);
+            $this->repository->deleteProductDetail($id);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e);
         }

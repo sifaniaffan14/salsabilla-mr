@@ -26,6 +26,7 @@ class CreateProductRequest extends FormRequest
             'ProductDescription' => ["required","string","max:150"],
             'ProductJenis' => ["required", "string", "max:50"],
             'ProductCategory' => ["required",'in:1,2,3,4'],
+            'ProductImage' => ["nullable", "image", "mimes:jpeg,png,jpg"],
         ];
     }
 
