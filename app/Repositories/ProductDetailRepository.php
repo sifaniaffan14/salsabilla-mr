@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Criteria\CustomCriteria;
 use App\Models\ProductDetail;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
