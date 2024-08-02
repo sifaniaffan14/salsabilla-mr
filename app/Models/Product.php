@@ -12,7 +12,7 @@ class Product extends BaseModel
     use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'ProductId';
-    protected $table = 'Product';
+    protected $table = 'product';
     protected $guarded = [];
     
     const CREATED_AT = 'ProductCreatedAt';
