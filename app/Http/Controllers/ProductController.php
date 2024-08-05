@@ -24,9 +24,9 @@ class ProductController extends Controller
     }
 
     public function index(){
-        $limit = request('limit', 10);
+        // $limit = request('limit', 10);
         try {
-            $products = $this->repository->paginate($limit);
+            $products = $this->repository->fetchAllProducts();
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), $e);  
         }

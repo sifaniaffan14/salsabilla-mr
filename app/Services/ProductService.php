@@ -63,8 +63,7 @@ class ProductService extends BaseService
             if ($image) {
                 $imageName = 'product_' . $data['ProductName'] . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/image/product'), $imageName);
-                $data['ProductImage'] = '/storage/image/product/' . $imageName;
-                $data['ProductImage'] = json_encode($data['ProductImage']);
+                $data['ProductImage'] = json_encode('/storage/image/product/' . $imageName);
             }
             // print_r($data['ProductImage']);exit;
             $productCreate = $this->productRepository->create($data);
