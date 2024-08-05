@@ -56,15 +56,17 @@ class ProductService extends BaseService
         try {
             DB::beginTransaction();
 
-            // if (isset($data["ProductImage"])) {
-            //     $imagesPath = $this->imageProcess($data["ProductImage"]);
-            //     $data["ProductImage"] = $imagesPath;
-            // }
-            // print_r($data["ProductImage"]);exit;
-
             $productDetails = $data['ProductDetails'] ?? []; // Store the value before unsetting
             unset($data['ProductDetails']);
 
+            $image = $data['ProductImage'] ?? null;
+            if ($image) {
+                $imageName = 'product_' . $data['ProductName'] . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('storage/image/product'), $imageName);
+                $data['ProductImage'] = '/storage/image/product/' . $imageName;
+                $data['ProductImage'] = json_encode($data['ProductImage']);
+            }
+            // print_r($data['ProductImage']);exit;
             $productCreate = $this->productRepository->create($data);
 
             $defaultProductDetails = [
@@ -76,7 +78,6 @@ class ProductService extends BaseService
                 $productDetailsData[] = array_merge($defaultProductDetails, $productDetailData);
             }
             $this->productDetailRepository->bulkInsert($productDetailsData);
-
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
