@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FooterContent\CreateFooterContentRequest as FooterContentCreateFooterContentRequest;
-use App\Http\Requests\FooterContent\UpdateFooterContentRequest as FooterContentUpdateFooterContentRequest;
-use App\Http\Requests\Product\CreateFooterContentRequest;
-use App\Http\Requests\Product\UpdateFooterContentRequest;
+use App\Http\Requests\FooterContent\CreateFooterContentRequest;
+use App\Http\Requests\FooterContent\UpdateFooterContentRequest;
 use App\Repositories\FooterContentRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -42,7 +40,7 @@ class FooterContentController extends Controller
         return $this->successResponse($footerContents);
     }
 
-    public function store(FooterContentCreateFooterContentRequest $request)
+    public function store(CreateFooterContentRequest $request)
     {
         try {
             $footerContents = $this->repository->create($request->all());
@@ -53,7 +51,7 @@ class FooterContentController extends Controller
         return $this->successResponse($footerContents, Response::HTTP_CREATED);
     }
 
-    public function update(FooterContentUpdateFooterContentRequest $request, int $id)
+    public function update(UpdateFooterContentRequest $request, int $id)
     {
         try {
             $footerContents = $this->repository->update($request->all(), $id);
