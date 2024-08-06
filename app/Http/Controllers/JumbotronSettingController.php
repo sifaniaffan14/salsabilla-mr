@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JumbotronSetting\CreateJumbotronSettingRequest;
 use App\Http\Requests\JumbotronSetting\UpdateJumbotronSettingRequest;
 use App\Repositories\JumbotronSettingRepository;
+use App\Services\JumbotronSettingService;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -12,17 +13,19 @@ use Illuminate\Http\Request;
 class JumbotronSettingController extends Controller
 {
     protected $repository;
+    protected $service;
 
     public function __construct(
-        JumbotronSettingRepository $repository
+        JumbotronSettingRepository $repository,
+        JumbotronSettingService $service
     ) {
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index(){
-        $limit = request('limit', 10);
         try {
-            $jumbotronSetting = $this->repository->paginate($limit);
+            $jumbotronSetting = $this->repository->fetchAllJumbotron();
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), $e);  
         }
@@ -43,7 +46,7 @@ class JumbotronSettingController extends Controller
     public function store(CreateJumbotronSettingRequest $request)
     {
         try {
-            $jumbotronSetting = $this->repository->create($request->all());
+            $jumbotronSetting = $this->service->storeJumbotron($request->all());
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

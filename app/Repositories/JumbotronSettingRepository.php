@@ -36,6 +36,21 @@ class JumbotronSettingRepository extends BaseRepository
         $this->pushCriteria(app(CustomCriteria::class));
     }
     
+    public function fetchAllJumbotron()
+    {
+        $limit = request('limit', 10);
+        $jumbotronSettings = $this->paginate($limit);
+
+        // Decode kolom ProductImage dari JSON untuk setiap produk
+        foreach ($jumbotronSettings as $jumbotronSetting) {
+            if ($jumbotronSetting->JumbotronImage !== null) {
+                $jumbotronSetting->JumbotronImage = json_decode($jumbotronSetting->JumbotronImage, true);
+            }
+        }
+
+        return $jumbotronSettings;
+    }
+
     public function fetchJumbotronSettingById(int $id): JumbotronSetting
     {
         $jumbotronSetting = $this->find($id);
@@ -43,6 +58,8 @@ class JumbotronSettingRepository extends BaseRepository
         if (!$jumbotronSetting) {
             throw new ModelNotFoundException("Jumbtron with id {$id} not found", Response::HTTP_NOT_FOUND);
         }
+
+        $jumbotronSetting->JumbotronImage = json_decode($jumbotronSetting->JumbotronImage, true);
 
         return $jumbotronSetting;
     }
