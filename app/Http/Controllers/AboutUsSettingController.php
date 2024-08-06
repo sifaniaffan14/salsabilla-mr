@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AboutUsSetting\CreateAboutUsSettingRequest;
 use App\Http\Requests\AboutUsSetting\UpdateAboutUsSettingRequest;
 use App\Repositories\AboutUsSettingRepository;
+use App\Services\AboutUsService;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Http\Response;
@@ -13,11 +14,14 @@ use Illuminate\Http\Response;
 class AboutUsSettingController extends Controller
 {
     protected $repository;
+    protected $service;
 
     public function __construct(
-        AboutUsSettingRepository $repository
+        AboutUsSettingRepository $repository,
+        AboutUsService $service
     ) {
         $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index(){
@@ -44,7 +48,7 @@ class AboutUsSettingController extends Controller
     public function store(CreateAboutUsSettingRequest $request)
     {
         try {
-            $aboutUs = $this->repository->create($request->all());
+            $aboutUs = $this->service->storeAboutUs($request->all());
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
