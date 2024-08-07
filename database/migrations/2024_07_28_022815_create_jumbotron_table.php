@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -31,6 +32,11 @@ return new class extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('jumbotron_setting_repositories');
+		try {
+            Schema::dropIfExists('jumbotron');
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            throw new \RuntimeException($e->getMessage());
+        }
 	}
 };
