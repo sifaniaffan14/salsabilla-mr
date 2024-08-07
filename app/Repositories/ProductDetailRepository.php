@@ -46,7 +46,7 @@ class ProductDetailRepository extends BaseRepository
         return $productDetail;
     }
 
-    public function updateProduct(int $id, array $data): ProductDetail
+    public function updateProductDetail(int $id, array $data): ProductDetail
     {
         $productDetail = $this->fetchProductDetailById($id);
 

@@ -17,4 +17,9 @@ class ProductDetail extends Model
     const CREATED_AT = 'ProductDetailCreatedAt';
     const UPDATED_AT = 'ProductDetailUpdatedAt';
     const DELETED_AT = 'ProductDetailDeletedAt';
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'ProductDetailProductId', 'ProductId');
+    }
 }
