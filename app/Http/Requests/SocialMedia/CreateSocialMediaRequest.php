@@ -23,7 +23,7 @@ class CreateSocialMediaRequest extends FormRequest
     {
         return [
             'SocialMediaCategory' => ["required", "in:1,2"],
-            'SocialMediaURL' => ["required", "string", "max:100"],
+            'SocialMediaURL' => ["string", "max:100"],
         ];
     }
 
