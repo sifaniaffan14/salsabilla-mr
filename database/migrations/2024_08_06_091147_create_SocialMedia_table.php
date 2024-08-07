@@ -17,7 +17,7 @@ return new class extends Migration
 		Schema::create('socialmedia', function(Blueprint $table) {
             $table->integer('SocialMediaId', true);
             $table->string('SocialMediaName', 50)->nullable();
-            $table->integer('SocialMediaCategory', 50)->nullable()->comment('1: ContactUs; 2:Store');
+            $table->integer('SocialMediaCategory')->nullable()->comment('1: ContactUs; 2:Store');
             $table->string('SocialMediaURL', 100)->nullable();
             $table->timestamp('SocialMediaCreatedAt')->nullable();
             $table->timestamp('SocialMediaUpdatedAt')->nullable();
