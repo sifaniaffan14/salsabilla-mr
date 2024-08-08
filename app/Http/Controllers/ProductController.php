@@ -58,7 +58,8 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, int $id)
     {
         try {
-            $products = $this->repository->update($request->all(), $id);
+            $data = $request->all();
+            $products = $this->service->updateProduct($data, empty($data['ProductImage']) ? null : $data['ProductImage'], $id);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

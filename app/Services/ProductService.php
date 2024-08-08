@@ -84,4 +84,22 @@ class ProductService extends BaseService
         DB::commit();
         return $productCreate;
     }
+
+    public function updateProduct(array $data, ?array $productImages, int $id)
+    {
+        DB::beginTransaction();
+        try {
+            if (!empty($productImages)) {
+                $imageName = 'product_' . $data['ProductName'] . '_' . uniqid() . '.' . $data['ProductImage']->getClientOriginalExtension();
+                $data['ProductImage']->move(public_path('storage/image/product'), $imageName);
+                $data['ProductImage'] = json_encode('/storage/image/product/' . $imageName);
+            }
+            $product = $this->productRepository->update($data, $id);
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+        return $product;
+    }
 }

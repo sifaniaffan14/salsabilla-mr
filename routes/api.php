@@ -20,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('/products', ProductController::class);
+Route::apiResource('/products', ProductController::class)->except('update');
+Route::post('/products/{productId}', [ProductController::class, "update"]);
 Route::apiResource('/footer-contents', FooterContentController::class);
-Route::apiResource('/jumbotron', JumbotronSettingController::class);
+Route::apiResource('/jumbotron', JumbotronSettingController::class)->except('update');
+Route::post('/jumbotron/{jumbotronId}', [JumbotronSettingController::class, "update"]);
 Route::apiResource('/about-us', AboutUsSettingController::class);
 Route::apiResource('/social-media', SocialMediaController::class);
 Route::apiResource('/product-details', ProductDetailController::class);
