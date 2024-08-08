@@ -44,4 +44,30 @@ class JumbotronSettingService extends BaseService
         DB::commit();
         return $jumbotronCreate;
     }
+
+    public function updateJumbotron(array $data, $jumbotronImages, int $id)
+    {
+        DB::beginTransaction();
+        try {
+            $jumbotron = $this->jumbotronRepository->fetchJumbotronSettingById($id);
+            if (!empty($jumbotronImages)) {
+                if (empty($data['JumbotronTittle'])) {
+                    $jumbotronName = $jumbotron['JumbotronTittle'];
+                    $imageName = 'jumbotron_' . $jumbotronName . '_' . uniqid() . '.' . $data['JumbotronImage']->getClientOriginalExtension();
+                    $data['JumbotronImage']->move(public_path('storage/image/jumbotron'), $imageName);
+                    $data['JumbotronImage'] = json_encode('/storage/image/jumbotron/' . $imageName);
+                } else {
+                    $imageName = 'jumbotron_' . $data['JumbotronTittle'] . '_' . uniqid() . '.' . $data['JumbotronImage']->getClientOriginalExtension();
+                    $data['JumbotronImage']->move(public_path('storage/image/jumbotron'), $imageName);
+                    $data['JumbotronImage'] = json_encode('/storage/image/jumbotron/' . $imageName);
+                }
+            }
+            $product = $this->jumbotronRepository->update($data, $id);
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+        return $product;
+    }
 }

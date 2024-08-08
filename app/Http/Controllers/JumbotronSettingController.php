@@ -57,7 +57,8 @@ class JumbotronSettingController extends Controller
     public function update(UpdateJumbotronSettingRequest $request, int $id)
     {
         try {
-            $jumbotronSetting = $this->repository->update($request->all(), $id);
+            $data = $request->all();
+            $jumbotronSetting = $this->service->updateJumbotron($data, empty($data['JumbotronImage']) ? null : $data['JumbotronImage'],$id);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
