@@ -25,7 +25,8 @@ Route::post('/products/{productId}', [ProductController::class, "update"]);
 Route::apiResource('/footer-contents', FooterContentController::class);
 Route::apiResource('/jumbotron', JumbotronSettingController::class)->except('update');
 Route::post('/jumbotron/{jumbotronId}', [JumbotronSettingController::class, "update"]);
-Route::apiResource('/about-us', AboutUsSettingController::class);
+Route::apiResource('/about-us', AboutUsSettingController::class)->except('update');
+Route::post('/about-us/{aboutUsId}', [AboutUsSettingController::class, "update"]);
 Route::apiResource('/social-media', SocialMediaController::class);
 Route::apiResource('/product-details', ProductDetailController::class);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

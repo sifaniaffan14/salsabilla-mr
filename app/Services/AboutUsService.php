@@ -51,4 +51,43 @@ class AboutUsService extends BaseService
         DB::commit();
         return $aboutUsCreate;
     }
+
+    public function updateAboutUs(array $data, $aboutUsVisiImages, $aboutUsMisiImages, int $id)
+    {
+        DB::beginTransaction();
+        try {
+            $aboutUs = $this->aboutUsSettingRepository->fetchAboutUsById($id);
+            if (!empty($aboutUsVisiImages)) {
+                if (empty($data['AboutUsVisi'])) {
+                    $aboutUsVisi = $aboutUs['AboutUsVisi'];
+                    $imageName = 'visi_' . $aboutUsVisi . '_' . uniqid() . '.' . $data['AboutUsVisiImage']->getClientOriginalExtension();
+                    $data['AboutUsVisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
+                    $data['AboutUsVisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
+                } else {
+                    $imageName = 'visi_' . $data['AboutUsVisi'] . '_' . uniqid() . '.' . $data['AboutUsVisiImage']->getClientOriginalExtension();
+                    $data['AboutUsVisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
+                    $data['AboutUsVisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
+                }
+            }
+
+            if (!empty($aboutUsMisiImages)) {
+                if (empty($data['AboutUsMisi'])) {
+                    $aboutUsMisi = $aboutUs['AboutUsMisi'];
+                    $imageName = 'misi_' . $aboutUsMisi . '_' . uniqid() . '.' . $data['AboutUsMisiImage']->getClientOriginalExtension();
+                    $data['AboutUsMisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
+                    $data['AboutUsMisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
+                } else {
+                    $imageName = 'misi_' . $data['AboutUsMisi'] . '_' . uniqid() . '.' . $data['AboutUsMisiImage']->getClientOriginalExtension();
+                    $data['AboutUsMisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
+                    $data['AboutUsMisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
+                }
+            }
+            $product = $this->aboutUsSettingRepository->update($data, $id);
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+        return $product;
+    }
 }

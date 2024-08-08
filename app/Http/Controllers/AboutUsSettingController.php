@@ -59,7 +59,8 @@ class AboutUsSettingController extends Controller
     public function update(UpdateAboutUsSettingRequest $request, int $id)
     {
         try {
-            $aboutUs = $this->repository->update($request->all(), $id);
+            $data = $request->all();
+            $aboutUs = $this->service->updateAboutUs($data, empty($data['AboutUsVisiImage']) ? null : $data['AboutUsVisiImage'], empty($data['AboutUsMisiImage']) ? null : $data['AboutUsMisiImage'], $id);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
