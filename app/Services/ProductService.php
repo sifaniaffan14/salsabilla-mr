@@ -85,14 +85,22 @@ class ProductService extends BaseService
         return $productCreate;
     }
 
-    public function updateProduct(array $data, ?array $productImages, int $id)
+    public function updateProduct(array $data, $productImages, int $id)
     {
         DB::beginTransaction();
         try {
+            $product = $this->productRepository->fetchProductById($id);
             if (!empty($productImages)) {
-                $imageName = 'product_' . $data['ProductName'] . '_' . uniqid() . '.' . $data['ProductImage']->getClientOriginalExtension();
-                $data['ProductImage']->move(public_path('storage/image/product'), $imageName);
-                $data['ProductImage'] = json_encode('/storage/image/product/' . $imageName);
+                if (empty($data['ProductName'])) {
+                    $productName = $product['ProductName'];
+                    $imageName = 'product_' . $productName . '_' . uniqid() . '.' . $data['ProductImage']->getClientOriginalExtension();
+                    $data['ProductImage']->move(public_path('storage/image/product'), $imageName);
+                    $data['ProductImage'] = json_encode('/storage/image/product/' . $imageName);
+                }else{
+                    $imageName = 'product_' . $data['ProductName'] . '_' . uniqid() . '.' . $data['ProductImage']->getClientOriginalExtension();
+                    $data['ProductImage']->move(public_path('storage/image/product'), $imageName);
+                    $data['ProductImage'] = json_encode('/storage/image/product/' . $imageName);
+                }
             }
             $product = $this->productRepository->update($data, $id);
         } catch (\Exception $e) {
