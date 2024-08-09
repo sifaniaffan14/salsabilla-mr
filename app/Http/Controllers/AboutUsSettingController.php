@@ -25,9 +25,8 @@ class AboutUsSettingController extends Controller
     }
 
     public function index(){
-        $limit = request('limit', 10);
         try {
-            $aboutUs = $this->repository->paginate($limit);
+            $aboutUs = $this->repository->fetchAllAboutUs();
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), $e);  
         }

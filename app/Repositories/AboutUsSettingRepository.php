@@ -43,6 +43,9 @@ class AboutUsSettingRepository extends BaseRepository
             throw new ModelNotFoundException("About Us with id {$id} not found", Response::HTTP_NOT_FOUND);
         }
 
+        $aboutUs->AboutUsVisiImage = json_decode($aboutUs->AboutUsVisiImage, true);
+        $aboutUs->AboutUsMisiImage = json_decode($aboutUs->AboutUsMisiImage, true);
+
         return $aboutUs;
     }
 
@@ -61,6 +64,24 @@ class AboutUsSettingRepository extends BaseRepository
 
         // Delete data
         $aboutUs->delete();
+    }
+
+    public function fetchAllAboutUs()
+    {
+        $limit = request('limit', 10);
+        $aboutUsSettings = $this->paginate($limit);
+
+        // Decode kolom ProductImage dari JSON untuk setiap produk
+        foreach ($aboutUsSettings as $aboutUsSetting) {
+            if ($aboutUsSetting->AboutUsVisiImage !== null) {
+                $aboutUsSetting->AboutUsVisiImage = json_decode($aboutUsSetting->AboutUsVisiImage, true);
+            }
+            if ($aboutUsSetting->AboutUsMisiImage !== null) {
+                $aboutUsSetting->AboutUsMisiImage = json_decode($aboutUsSetting->AboutUsMisiImage, true);
+            }
+        }
+
+        return $aboutUsSettings;
     }
     
 }
