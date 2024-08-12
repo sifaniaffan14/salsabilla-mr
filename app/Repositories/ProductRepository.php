@@ -25,7 +25,9 @@ class ProductRepository extends BaseRepository
         return Product::class;
     }
 
-
+    protected $fieldSearchable = [
+        'ProductName' => 'like',
+    ];
 
     /**
      * Boot up the repository, pushing criteria
