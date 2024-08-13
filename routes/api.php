@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutUsSettingController;
+use App\Http\Controllers\ConfigUserController;
 use App\Http\Controllers\FooterContentController;
 use App\Http\Controllers\JumbotronSettingController;
 use App\Http\Controllers\ProductController;
@@ -29,6 +30,8 @@ Route::apiResource('/about-us', AboutUsSettingController::class)->except('update
 Route::post('/about-us/{aboutUsId}', [AboutUsSettingController::class, "update"]);
 Route::apiResource('/social-media', SocialMediaController::class);
 Route::apiResource('/product-details', ProductDetailController::class);
+Route::apiResource('/users', ConfigUserController::class)->except('update');
+Route::post('/users/{userId}', [ConfigUserController::class, "update"]);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
