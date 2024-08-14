@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             aboutUsSeeder::class,
             FooterSeeder::class,
             socialMediaSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

@@ -22,15 +22,15 @@ class UserService extends BaseService
         try {
             DB::beginTransaction();
 
-            $image = $data['UserImages'] ?? null;
+            $image = $data['images'] ?? null;
             if ($image) {
-                $imageName = 'user_' . $data['UserName'] . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imageName = 'user_' . $data['username'] . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('storage/image/user'), $imageName);
-                $data['UserImages'] = json_encode('/storage/image/user/' . $imageName);
+                $data['images'] = json_encode('/storage/image/user/' . $imageName);
             }
 
-            if (!empty($data['UserPassword'])) {
-                $data['UserPassword'] = bcrypt($data['UserPassword']);
+            if (!empty($data['password'])) {
+                $data['password'] = bcrypt($data['password']);
             }
             $userCreate = $this->userRepository->create($data);
         } catch (\Exception $e) {
@@ -47,15 +47,15 @@ class UserService extends BaseService
         try {
             $user = $this->userRepository->fetchUserById($id);
             if (!empty($userImages)) {
-                if (empty($data['UserName'])) {
-                    $userName = $user['UserName'];
-                    $imageName = 'user_' . $userName . '_' . uniqid() . '.' . $data['UserImages']->getClientOriginalExtension();
-                    $data['UserImages']->move(public_path('storage/image/user'), $imageName);
-                    $data['UserImages'] = json_encode('/storage/image/user/' . $imageName);
+                if (empty($data['username'])) {
+                    $userName = $user['username'];
+                    $imageName = 'user_' . $userName . '_' . uniqid() . '.' . $data['images']->getClientOriginalExtension();
+                    $data['images']->move(public_path('storage/image/user'), $imageName);
+                    $data['images'] = json_encode('/storage/image/user/' . $imageName);
                 } else {
-                    $imageName = 'user_' . $data['UserName'] . '_' . uniqid() . '.' . $data['UserImages']->getClientOriginalExtension();
-                    $data['UserImages']->move(public_path('storage/image/user'), $imageName);
-                    $data['UserImages'] = json_encode('/storage/image/user/' . $imageName);
+                    $imageName = 'user_' . $data['username'] . '_' . uniqid() . '.' . $data['images']->getClientOriginalExtension();
+                    $data['images']->move(public_path('storage/image/user'), $imageName);
+                    $data['images'] = json_encode('/storage/image/user/' . $imageName);
                 }
             }
             $user = $this->userRepository->update($data, $id);

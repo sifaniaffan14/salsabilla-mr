@@ -58,7 +58,7 @@ class ConfigUserController extends Controller
     {
         try {
             $data = $request->all();
-            $users = $this->service->updateUser($data, empty($data['UserImages']) ? null : $data['UserImages'],$id);
+            $users = $this->service->updateUser($data, empty($data['images']) ? null : $data['images'],$id);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), $e, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

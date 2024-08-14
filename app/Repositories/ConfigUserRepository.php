@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
  */
 class ConfigUserRepository extends BaseRepository
 {
+    
     /**
      * Specify Model class name
      *
@@ -25,8 +26,6 @@ class ConfigUserRepository extends BaseRepository
     {
         return ConfigUser::class;
     }
-
-    
 
     /**
      * Boot up the repository, pushing criteria
@@ -43,8 +42,8 @@ class ConfigUserRepository extends BaseRepository
 
         // Decode kolom ProductImage dari JSON untuk setiap produk
         foreach ($users as $user) {
-            if ($user->UserImages !== null) {
-                $user->UserImages = json_decode($user->UserImages, true);
+            if ($user->images !== null) {
+                $user->images = json_decode($user->images, true);
             }
         }
 
@@ -59,14 +58,14 @@ class ConfigUserRepository extends BaseRepository
             throw new ModelNotFoundException("User with id {$id} not found", Response::HTTP_NOT_FOUND);
         }
 
-        $user->UserImages = json_decode($user->UserImages, true);
+        $user->images = json_decode($user->images, true);
 
         return $user;
     }
 
     public function updateUser(int $id, array $data): ConfigUser
     {
-        $user = $this->fetchFooterContentById($id);
+        $user = $this->fetchUserById($id);
 
         $user->update($data);
 
@@ -79,5 +78,15 @@ class ConfigUserRepository extends BaseRepository
 
         // Delete data
         $user->delete();
+    }
+
+    public function getUserWithFiltration(array $filtration)
+    {
+        return $this->where($filtration)->first();
+    }
+
+    public function getUserWithUserName(string $username)
+    {
+        return $this->where('username', $username)->first();
     }
 }

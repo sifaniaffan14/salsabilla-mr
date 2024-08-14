@@ -4,20 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User;
-use Laravel\Sanctum\HasApiTokens;
 
-class ConfigUser extends User
+class PersonalAccessTokens extends Model
 {
-    use HasApiTokens,HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $primaryKey = 'id';
-    protected $table = 'users';
+    protected $table = 'personal_access_tokens';
     protected $guarded = [];
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-    const DELETED_AT = 'deleted_at';
-
+    const LAST_EXPIRED_AT = 'expires_at';
 }

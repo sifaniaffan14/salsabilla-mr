@@ -14,14 +14,15 @@ return new class extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('configuser', function(Blueprint $table) {
-            $table->integer('UserId', true);
-            $table->string('UserName', 50)->nullable();
-            $table->string('UserPassword', 255)->nullable();
-            $table->string('UserEmail', 50)->nullable();
-            $table->timestamp('UserCreatedAt')->nullable();
-            $table->timestamp('UserUpdatedAt')->nullable();
-            $table->timestamp('UserDeletedAt')->nullable();
+		Schema::create('users', function(Blueprint $table) {
+			$table->increments('id');
+            $table->string('username', 50)->nullable();
+            $table->string('password', 255)->nullable();
+            $table->string('email', 50)->nullable();
+            $table->string('images', 255)->nullable();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 		});
 	}
 
@@ -33,7 +34,7 @@ return new class extends Migration
 	public function down()
 	{
 		try {
-            Schema::dropIfExists('configuser');
+            Schema::dropIfExists('users');
         } catch (Exception $e) {
             Log::error($e->getMessage());
             throw new \RuntimeException($e->getMessage());
