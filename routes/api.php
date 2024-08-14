@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AboutUsSettingController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigUserController;
 use App\Http\Controllers\FooterContentController;
 use App\Http\Controllers\JumbotronSettingController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\SocialMediaController;
+use App\Http\Middleware\EnsureTokenIsValid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,17 +23,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('/products', ProductController::class)->except('update');
-Route::post('/products/{productId}', [ProductController::class, "update"]);
-Route::apiResource('/footer-contents', FooterContentController::class);
-Route::apiResource('/jumbotron', JumbotronSettingController::class)->except('update');
-Route::post('/jumbotron/{jumbotronId}', [JumbotronSettingController::class, "update"]);
-Route::apiResource('/about-us', AboutUsSettingController::class)->except('update');
-Route::post('/about-us/{aboutUsId}', [AboutUsSettingController::class, "update"]);
-Route::apiResource('/social-media', SocialMediaController::class);
-Route::apiResource('/product-details', ProductDetailController::class);
-Route::apiResource('/users', ConfigUserController::class)->except('update');
-Route::post('/users/{userId}', [ConfigUserController::class, "update"]);
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/update-token', [AuthController::class, 'generateToken']);
+
+Route::middleware([EnsureTokenIsValid::class])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
+    Route::apiResource('/products', ProductController::class)->except('update');
+    Route::post('/products/{productId}', [ProductController::class, "update"]);
+    Route::apiResource('/footer-contents', FooterContentController::class);
+    Route::apiResource('/jumbotron', JumbotronSettingController::class)->except('update');
+    Route::post('/jumbotron/{jumbotronId}', [JumbotronSettingController::class, "update"]);
+    Route::apiResource('/about-us', AboutUsSettingController::class)->except('update');
+    Route::post('/about-us/{aboutUsId}', [AboutUsSettingController::class, "update"]);
+    Route::apiResource('/social-media', SocialMediaController::class);
+    Route::apiResource('/product-details', ProductDetailController::class);
+    Route::apiResource('/users', ConfigUserController::class)->except('update');
+    Route::post('/users/{userId}', [ConfigUserController::class, "update"]);
+    // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
+});
