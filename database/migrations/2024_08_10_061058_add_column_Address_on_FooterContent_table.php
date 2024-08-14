@@ -12,12 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('footercontent', function (Blueprint $table) 
-        {
-            $table->string('FooterContentAddress', 255)->nullable();
-        });
+        if (!Schema::hasColumn('footercontent', 'FooterContentAddress')) {
+            Schema::table('footercontent', function (Blueprint $table) {
+                $table->string('FooterContentAddress', 255)->nullable();
+            });
+        }
     }
-
     /**
      * Reverse the migrations.
      */
