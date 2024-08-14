@@ -53,7 +53,7 @@ Route::middleware([EnsureTokenIsValid::class])->group(function () {
     
     Route::apiResource('/products', ProductController::class)->except('update','index', 'show');
     Route::post('/products/{productId}', [ProductController::class, "update"]);
-    Route::apiResource('/footer-contents', FooterContentController::class)->except('update','index', 'show');
+    Route::apiResource('/footer-contents', FooterContentController::class)->except('index', 'show');
     Route::apiResource('/jumbotron', JumbotronSettingController::class)->except('update','index', 'show');
     Route::post('/jumbotron/{jumbotronId}', [JumbotronSettingController::class, "update"]);
     Route::apiResource('/about-us', AboutUsSettingController::class)->except('update','index', 'show');
