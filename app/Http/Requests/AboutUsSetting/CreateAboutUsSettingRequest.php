@@ -22,8 +22,8 @@ class CreateAboutUsSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'AboutUsVisi' => ["required", "string", "max:50"],
-            'AboutUsMisi' => ["required","string","max:50"],
+            'AboutUsVisi' => ["required", "string"],
+            'AboutUsMisi' => ["required","string"],
         ];
     }
 

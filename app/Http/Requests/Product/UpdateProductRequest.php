@@ -25,7 +25,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'ProductName' => ["string", "max:50"],
-            'ProductDescription' => ["string","max:150"],
+            'ProductDescription' => ["string"],
             'ProductJenis' => ["string", "max:50"],
             'ProductCategory' => ['in:1,2,3,4'],
         ];

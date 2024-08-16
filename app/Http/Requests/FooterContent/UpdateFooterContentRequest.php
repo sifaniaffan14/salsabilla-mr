@@ -22,9 +22,9 @@ class UpdateFooterContentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'FooterContentTermAndCondition' => ["string", "max:150"],
-            'FooterContentPrivacyPolicy' => ["string","max:150"],
-            'FooterContentFAQ' => ["string", "max:50"],
+            'FooterContentTermAndCondition' => ["string"],
+            'FooterContentPrivacyPolicy' => ["string"],
+            'FooterContentFAQ' => ["string"],
         ];
     }
 

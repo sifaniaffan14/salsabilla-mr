@@ -22,8 +22,8 @@ class UpdateAboutUsSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'AboutUsVisi' => ["string", "max:50"],
-            'AboutUsMisi' => ["string","max:50"],
+            'AboutUsVisi' => ["string"],
+            'AboutUsMisi' => ["string"],
         ];
     }
 
