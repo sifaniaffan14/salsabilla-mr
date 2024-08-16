@@ -22,9 +22,9 @@ class CreateFooterContentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'FooterContentTermAndCondition' => ["required", "string", "max:150"],
-            'FooterContentPrivacyPolicy' => ["required","string","max:150"],
-            'FooterContentFAQ' => ["required", "string", "max:50"],
+            'FooterContentTermAndCondition' => ["required", "string"],
+            'FooterContentPrivacyPolicy' => ["required","string"],
+            'FooterContentFAQ' => ["required", "string"],
         ];
     }
 

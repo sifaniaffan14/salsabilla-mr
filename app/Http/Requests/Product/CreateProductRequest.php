@@ -23,7 +23,7 @@ class CreateProductRequest extends FormRequest
     {
         return [
             'ProductName' => ["required", "string", "max:50"],
-            'ProductDescription' => ["required","string","max:150"],
+            'ProductDescription' => ["required","string"],
             'ProductJenis' => ["required", "string", "max:50"],
             'ProductCategory' => ["required",'in:1,2,3,4'],
             'ProductImage' => ["nullable", "image", "mimes:jpeg,png,jpg"],
