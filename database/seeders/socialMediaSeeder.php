@@ -37,7 +37,7 @@ class socialMediaSeeder extends Seeder
                     // 'SocialMediaURL' => "",
                 ],
                 [
-                    'SocialMediaName' => "Tokopedi",
+                    'SocialMediaName' => "Tokopedia",
                     'SocialMediaCategory' => 2,
                     // 'SocialMediaURL' => "",
                 ],
