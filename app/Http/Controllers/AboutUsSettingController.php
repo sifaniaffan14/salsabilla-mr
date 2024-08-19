@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Http\Response;
 
-
 class AboutUsSettingController extends Controller
 {
     protected $repository;
