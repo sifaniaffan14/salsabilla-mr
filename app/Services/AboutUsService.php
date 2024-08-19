@@ -33,12 +33,12 @@ class AboutUsService extends BaseService
             $imageVisi = $data['AboutUsVisiImage'] ?? null;
             $imageMisi = $data['AboutUsMisiImage'] ?? null;
             if ($imageVisi) {
-                $imageName = 'visi_' . $data['AboutUsVisi'] . '_' . uniqid() . '.' . $imageVisi->getClientOriginalExtension();
+                $imageName = 'visi_' . uniqid() . '.' . $imageVisi->getClientOriginalExtension();
                 $imageVisi->move(public_path('storage/image/aboutUs'), $imageName);
                 $data['AboutUsVisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
             }
             if ($imageMisi) {
-                $imageName = 'misi_' . $data['AboutUsMisi'] . '_' . uniqid() . '.' . $imageMisi->getClientOriginalExtension();
+                $imageName = 'misi_' . uniqid() . '.' . $imageMisi->getClientOriginalExtension();
                 $imageMisi->move(public_path('storage/image/aboutUs'), $imageName);
                 $data['AboutUsMisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
             }
@@ -52,35 +52,20 @@ class AboutUsService extends BaseService
         return $aboutUsCreate;
     }
 
-    public function updateAboutUs(array $data, $aboutUsVisiImages, $aboutUsMisiImages, int $id)
+    public function updateAboutUs(array $data, $aboutUsVisiImage, $aboutUsMisiImage, int $id)
     {
         DB::beginTransaction();
         try {
-            $aboutUs = $this->aboutUsSettingRepository->fetchAboutUsById($id);
-            if (!empty($aboutUsVisiImages)) {
-                if (empty($data['AboutUsVisi'])) {
-                    $aboutUsVisi = $aboutUs['AboutUsVisi'];
-                    $imageName = 'visi_' . $aboutUsVisi . '_' . uniqid() . '.' . $data['AboutUsVisiImage']->getClientOriginalExtension();
-                    $data['AboutUsVisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
-                    $data['AboutUsVisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
-                } else {
-                    $imageName = 'visi_' . $data['AboutUsVisi'] . '_' . uniqid() . '.' . $data['AboutUsVisiImage']->getClientOriginalExtension();
-                    $data['AboutUsVisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
-                    $data['AboutUsVisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
-                }
+            if (!empty($aboutUsVisiImage)) {
+                $imageName = 'visi_' . uniqid() . '.' . $data['AboutUsVisiImage']->getClientOriginalExtension();
+                $data['AboutUsVisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
+                $data['AboutUsVisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
             }
 
-            if (!empty($aboutUsMisiImages)) {
-                if (empty($data['AboutUsMisi'])) {
-                    $aboutUsMisi = $aboutUs['AboutUsMisi'];
-                    $imageName = 'misi_' . $aboutUsMisi . '_' . uniqid() . '.' . $data['AboutUsMisiImage']->getClientOriginalExtension();
-                    $data['AboutUsMisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
-                    $data['AboutUsMisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
-                } else {
-                    $imageName = 'misi_' . $data['AboutUsMisi'] . '_' . uniqid() . '.' . $data['AboutUsMisiImage']->getClientOriginalExtension();
-                    $data['AboutUsMisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
-                    $data['AboutUsMisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
-                }
+            if (!empty($aboutUsMisiImage)) {
+                $imageName = 'misi_' . uniqid() . '.' . $data['AboutUsMisiImage']->getClientOriginalExtension();
+                $data['AboutUsMisiImage']->move(public_path('storage/image/aboutUs'), $imageName);
+                $data['AboutUsMisiImage'] = json_encode('/storage/image/aboutUs/' . $imageName);
             }
             $product = $this->aboutUsSettingRepository->update($data, $id);
         } catch (\Exception $e) {
